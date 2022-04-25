@@ -1,0 +1,17 @@
+FROM node:16-alpine
+
+WORKDIR /usr/app
+
+COPY service2.js ./
+
+COPY package*.json ./
+
+COPY start_service2.sh ./
+
+COPY tracing.js ./
+
+RUN npm install
+
+EXPOSE 3001
+
+CMD ["npm", "run", "service2"]

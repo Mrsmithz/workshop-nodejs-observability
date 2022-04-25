@@ -1,0 +1,40 @@
+services:
+  service1:
+    build:
+      context: ./
+      dockerfile: Dockerfile.s1
+    ports:
+      - 3000:3000
+    depends_on:
+      - zipkin
+  service2:
+    build:
+      context: ./
+      dockerfile: Dockerfile.s2
+    ports:
+      - 3001:3001
+    depends_on:
+      - zipkin
+  service3:
+    build:
+      context: ./
+      dockerfile: Dockerfile.s3
+    ports:
+      - 3002:3002
+      - 9464:9464
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - 9411:9411
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yml
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 9999:3000
+    volumes:
+     - ./datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yml
